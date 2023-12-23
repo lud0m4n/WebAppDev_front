@@ -1,9 +1,9 @@
 import './MainPage.css'
-import Navbar from '../../widgets/Navbar/Navbar'
-import Card from '../../widgets/Card/Card'
+import Navbar from '../../widgets/Navbar/Navbar.tsx'
+import Card from '../../widgets/Card/Card.tsx'
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react'
-import testData from '../../data';
+import testData from '../../data.tsx';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 
 interface Data {

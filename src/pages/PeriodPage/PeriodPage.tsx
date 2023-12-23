@@ -1,11 +1,11 @@
 import './PeriodPage.css';
-import Navbar from '../../widgets/Navbar/Navbar';
+import Navbar from '../../widgets/Navbar/Navbar.tsx';
 import Button from 'react-bootstrap/Button';
 import { useParams } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
-import testData from '../../data';
+import testData from '../../data.tsx';
 
 interface PeriodData { 
   id_period: number;
