@@ -1,15 +1,15 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import MainPage from './pages/MainPage/MainPage.tsx';
 import PeriodPage from './pages/PeriodPage/PeriodPage.tsx';
 
 const App = () => {
   return (
-    <Router basename={import.meta.env.BASE_URL}>
+    <BrowserRouter>
       <Routes>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/period/:id" element={<PeriodPage />} />
+        <Route path="/paleo" element={<MainPage />} />
+        <Route path="/paleo/period/:id" element={<PeriodPage />} />
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 };
 
