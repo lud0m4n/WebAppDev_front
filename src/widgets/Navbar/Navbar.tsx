@@ -37,7 +37,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMaxPriceChange }) => {
   return (
     <NavB expand="lg" bg="dark" data-bs-theme="dark" className="bg-body-tertiary">
       <Container fluid style={{ marginLeft: '5%' }}>
-        <NavB.Brand href="/">Палеонтология</NavB.Brand>
+        <NavB.Brand href="/WebAppDev_front">Палеонтология</NavB.Brand>
         <NavB.Toggle aria-controls="navbarScroll" />
         <NavB.Collapse id="navbarScroll">
           <Nav
