@@ -48,7 +48,7 @@ interface PeriodData {
             <Navbar />
             <div className="container">
             <Breadcrumb>
-                    <Breadcrumb.Item href="/">Главная</Breadcrumb.Item>
+                    <Breadcrumb.Item href="/WebAppDev_front">Главная</Breadcrumb.Item>
                     <Breadcrumb.Item href="#" active>
                         {data?.name}
                     </Breadcrumb.Item>

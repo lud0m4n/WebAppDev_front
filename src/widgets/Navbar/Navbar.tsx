@@ -45,7 +45,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMaxPriceChange }) => {
             style={{ maxHeight: '100px' }}
             navbarScroll
           >
-            <Nav.Link href="/">Главная</Nav.Link>
+            <Nav.Link href="/WebAppDev_front">Главная</Nav.Link>
             <Nav.Link href="#action2">Корзина</Nav.Link>
           </Nav>
           <Form
