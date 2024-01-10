@@ -41,7 +41,7 @@ interface PeriodData {
         console.error('ошибка при выполннении запроса:', error);
       }
     };
-    console.log(data);
+    console.log(data?.name);
 
     return (
         <div>

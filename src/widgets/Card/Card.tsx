@@ -27,7 +27,7 @@ const Card: React.FC<CardProps> = (props) => {
                     {truncatedDescription}
                 </CardBootstrap.Text>
                 <>
-                    <Link to={`/period/${props.id}`} style={{ marginRight: 'auto' }}>
+                    <Link to={`/WebAppDev_front/period/${props.id}`} style={{ marginRight: 'auto' }}>
                         <Button variant="primary" style={{ borderColor: '#537459', borderRadius: '10px' ,backgroundColor: '#537459', color: '#d1e2d4' }}>Подробнее</Button>
                     </Link>
                     <CardBootstrap.Text style={{ color: '#537459', display: 'inline-block', fontWeight: 'bold', marginTop: '2%' }}>
