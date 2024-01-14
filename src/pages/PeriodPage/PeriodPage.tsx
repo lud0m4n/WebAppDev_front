@@ -6,6 +6,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import testData from '../../data.tsx';
+import Loader from '../../widgets/Loader/Loader';
 
 interface PeriodData { 
   id_period: number;
@@ -42,7 +43,11 @@ interface PeriodData {
       }
     };
     console.log(data?.name);
-
+    if (!data) {
+      return (
+        <Loader/>
+      );
+    }
     return (
         <div>
             <Navbar />

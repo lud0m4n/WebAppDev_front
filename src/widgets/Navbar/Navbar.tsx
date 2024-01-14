@@ -6,38 +6,31 @@ import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import { Navbar as NavB } from 'react-bootstrap';
 import { useState } from 'react';
+import { logout } from '../../redux/auth/authActions';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
+import { Link } from 'react-router-dom';
 
-interface NavbarProps {
-  onMaxPriceChange?: (value: string) => void; // Define the prop type
-}
+const Navbar = () => {
+  const dispatch = useDispatch();
+  const maxPriceFilter = useSelector((state: RootState) => state.filterAndActiveId.maxPriceFilter);
 
-const Navbar: React.FC<NavbarProps> = ({ onMaxPriceChange }) => {
-  const [maxPrice, setMaxPrice] = useState('');
 
-  const handleMaxPriceChange = (e: ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault()
-    const value = e.target.value;
-    setMaxPrice(value);
-
-    // Check if onMaxPriceChange is defined before calling it
-    if (onMaxPriceChange !== undefined) {
-      onMaxPriceChange(value);
-    }
-  };
-
-  const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogout = async (e: React.MouseEvent) => {
     e.preventDefault();
 
-    // Вызываем onMaxPriceChange при отправке формы
-    if (onMaxPriceChange && maxPrice.trim() !== '') {
-      onMaxPriceChange(maxPrice);
+    try {
+      await dispatch(logout());
+      window.location.reload();
+    } catch (error) {
+      console.error("Error during logout:", error);
     }
   };
 
   return (
     <NavB expand="lg" bg="dark" data-bs-theme="dark" className="bg-body-tertiary">
       <Container fluid style={{ marginLeft: '5%' }}>
-        <NavB.Brand href="/WebAppDev_front">Палеонтология</NavB.Brand>
+        <Link className='navbar-link logo' to="/WebAppDev_front">Палеонтология</Link>
         <NavB.Toggle aria-controls="navbarScroll" />
         <NavB.Collapse id="navbarScroll">
           <Nav
@@ -45,35 +38,46 @@ const Navbar: React.FC<NavbarProps> = ({ onMaxPriceChange }) => {
             style={{ maxHeight: '100px' }}
             navbarScroll
           >
-            <Nav.Link href="/WebAppDev_front">Главная</Nav.Link>
-            <Nav.Link href="#action2">Корзина</Nav.Link>
+            <Link className='navbar-link' to="/WebAppDev_front">Главная</Link>
+            {window.localStorage.getItem("accessToken") ? (
+              <Link className='navbar-link' to="/WebAppDev_front/requests">
+                Заявки
+              </Link>
+            ) : null}
+
           </Nav>
-          <Form
-            className="d-flex"
-            id="search"
-            onSubmit={handleSearchSubmit} // Добавляем обработчик отправки формы
-          >
-            <Form.Control
-              type="search"
-              placeholder="Поиск по названию"
-              className="me-2"
-              aria-label="Search"
-              value={maxPrice}
-              onChange={handleMaxPriceChange}
-            />
-            <Button
-              variant="outline-success"
-              onClick={(e) => {
-                e.preventDefault();
-                if (onMaxPriceChange !== undefined) {
-                  onMaxPriceChange(maxPrice);
-                }
-              }}
-              className="me-3"
-            >
-              Искать
-            </Button>
-          </Form>
+          <Nav>
+            <div className='right-side'>
+              {window.localStorage.getItem("accessToken") ? (
+                <>
+                  {window.localStorage.getItem("name") ? (
+                    <div style={{display: 'flex', marginTop: '20%'}}>
+                      <p className='navbar-link name'>
+                        {localStorage.getItem("name")}
+                      </p>
+                      <Link className='navbar-link danger exit' onClick={handleLogout} to='/WebAppDev_front'>
+                        Выйти
+                      </Link>
+                    </div>
+                  ) :
+                    <Link className='navbar-link danger exit' onClick={handleLogout} to='/WebAppDev_front'>
+                      Выйти
+                    </Link>
+                  }
+                </>
+              ) : (
+                <>
+                  <Link className='navbar-link' to="/WebAppDev_front/auth/login">
+                    Войти
+                  </Link>
+                  <Link className='navbar-link register' to="/WebAppDev_front/auth/registration">
+                    Зарегистрироваться
+                  </Link>
+                </>
+              )
+              }
+            </div>
+          </Nav>
         </NavB.Collapse>
       </Container>
     </NavB>
