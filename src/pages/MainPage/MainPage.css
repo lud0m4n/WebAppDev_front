@@ -1,0 +1,22 @@
+.cart {
+    position: fixed;
+    border: solid 2px;
+    border-color: green;
+    border-radius: 10px;
+    top: 15%;
+    right: 3%;
+    height: 60px;
+    width: 60px;
+    box-sizing: border-box;
+    background-color: white;
+    padding: 6px;
+}
+
+.empty {
+    background-color: #f2f2f2;
+    border: 2px dashed green;
+    pointer-events: none;
+}
+body .me-2::placeholder {
+    color: #d1f1d7;
+  }

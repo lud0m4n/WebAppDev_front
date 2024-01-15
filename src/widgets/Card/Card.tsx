@@ -53,16 +53,16 @@ const Card: React.FC<CardProps> = (props) => {
         };
     return (
         <CardBootstrap style={{ textDecoration: 'none', color: '#537459', width: '18rem', borderRadius: '20px', marginTop: '3rem', margin: '10% 10% 5% 10%' }}>
-            <Link to={`/WebAppDev_front/period/${props.id}`} style={{  marginRight: 'auto' }}>
+            <Link to={`/WebAppDev_front/period/${props.id}`} style={{ textDecoration: 'none', color: '#537459',margin: 'auto' }}>
             <CardBootstrap.Img variant="top" src={props.image} style={{width: '240px', height: '162px', borderRadius: '10px', display: 'block', margin: 'auto', marginTop: '20px'}}/>
-            <CardBootstrap.Body style={{textDecoration: 'none',}}>
+            <CardBootstrap.Body style={{textDecoration: 'none'}}>
                 <CardBootstrap.Title>{props.name} </CardBootstrap.Title>
                 <CardBootstrap.Text>
                     {truncatedDescription}
                 </CardBootstrap.Text>
                 <>
                     
-                        <Button variant="primary" onClick={handleAddToCard} style={{ borderColor: '#537459', borderRadius: '10px' ,backgroundColor: '#537459', color: '#d1e2d4' }}>Добавить</Button>
+                        <Button variant="primary" onClick={handleAddToCard} style={{ margin: 'auto', borderColor: '#537459', borderRadius: '10px' ,backgroundColor: '#537459', color: '#d1e2d4' }}>Добавить</Button>
                     
                     <CardBootstrap.Text style={{ textDecoration: 'none', color: '#537459', display: 'inline-block', fontWeight: 'bold', marginTop: '2%' }}>
                     </CardBootstrap.Text>

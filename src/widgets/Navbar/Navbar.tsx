@@ -55,12 +55,12 @@ const Navbar = () => {
                       <p className='navbar-link name'>
                         {localStorage.getItem("name")}
                       </p>
-                      <Link className='navbar-link danger exit' onClick={handleLogout} to='/WebAppDev_front'>
+                      <Link className='navbar-link' onClick={handleLogout} to='/WebAppDev_front'>
                         Выйти
                       </Link>
                     </div>
                   ) :
-                    <Link className='navbar-link danger exit' onClick={handleLogout} to='/WebAppDev_front'>
+                    <Link className='navbar-link' onClick={handleLogout} to='/WebAppDev_front'>
                       Выйти
                     </Link>
                   }

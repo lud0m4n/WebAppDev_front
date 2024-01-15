@@ -34,7 +34,6 @@ const MainPage: React.FC = () => {
     const activeRequest = useSelector((state: RootState) => state.filterAndActiveId.activeRequestID);
     const numOfCons = useSelector((state: RootState) => state.filterAndActiveId.numOfCons);
     const [data, setData] = useState<Data | null>({ id_fossil: 0, periods: [] });
-
     const fetchData = async () => {
         console.log(maxPriceFilter)
         try {
@@ -104,14 +103,15 @@ const MainPage: React.FC = () => {
                 <Form
                     className="d-flex"
                     id="search"
-                    style={{ width: "20%", minWidth: "250px", marginTop: "0.7%" }}
+                    style={{ color: "#d1f1d7", width: "20%", minWidth: "250px", marginTop: "0.7%" }}
                 >
                     <Form.Control
                         type="search"
-                        placeholder="Поиск по максимальной цене"
+                        placeholder="Поиск по названию"
                         className="me-2"
                         aria-label="Search"
                         value={maxPriceFilter}
+                        style={{ color: "#d1f1d7", width: "20%", minWidth: "250px", marginTop: "0.7%"} }
                         onChange={handleMaxPriceChange}
                     />
                 </Form>
@@ -121,7 +121,7 @@ const MainPage: React.FC = () => {
                     : <>
                 <div className="row">
                     {data?.periods?.map((item) => (
-                        <div key={item.id_period} className="col-lg-4 col-md-6 col-sm-12">
+                        <div key={item.id_period} style={{textDecoration: 'none'}} className="col-lg-4 col-md-6 col-sm-12">
                             <Card
                                 id={item.id_period}
                                 name={item.name}
@@ -134,7 +134,7 @@ const MainPage: React.FC = () => {
                     ))}
                 </div>
                 {isAuthenticated ?
-                            (activeRequest && numOfCons > 0) ?
+                            ((localStorage.getItem("ActiveRequestId") != '0') && (numOfCons > 0)) ?
                                 <Link className='cart' to='/WebAppDev_front/shopping-cart'>
                                     <img src={CartImg} />
                                 </Link> :
