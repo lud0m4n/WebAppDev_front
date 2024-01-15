@@ -55,9 +55,10 @@ const MainPage: React.FC = () => {
 
 
             const result = await response.json();
-            localStorage.setItem("ActiveRequestId", result?.ActiveRequestId?.toString() || '');
-            dispatch(setActiveRequestID(result?.ActiveRequestId));
-            console.log(result);
+            const idFossil = result?.id_fossil || '';
+            localStorage.setItem("ActiveRequestId", idFossil);
+            dispatch(setActiveRequestID(idFossil));
+            console.log(idFossil);
             setData(result);
         } catch (error) {
             console.log(testData)
@@ -134,10 +135,10 @@ const MainPage: React.FC = () => {
                 </div>
                 {isAuthenticated ?
                             (activeRequest && numOfCons > 0) ?
-                                <Link className='cart' to='/shopping-cart'>
+                                <Link className='cart' to='/WebAppDev_front/shopping-cart'>
                                     <img src={CartImg} />
                                 </Link> :
-                                <Link className='cart empty' to='/shopping-cart' >
+                                <Link className='cart empty' to='/WebAppDev_front/shopping-cart' >
                                     <img src={EmptyCartImg} />
                                 </Link>
                             : null

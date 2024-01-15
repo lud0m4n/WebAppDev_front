@@ -25,16 +25,16 @@ const Card: React.FC<CardProps> = (props) => {
         const numOfCons = useSelector((state: RootState) => state.filterAndActiveId.numOfCons);
         const dispatch = useDispatch();
     
-        const handleAddToCard = async (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        const handleAddToCard = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
             console.log(event)
             try {
                 event.preventDefault();
                 await axios.post(
-                    `/api/consultations/${props.id}/add-to-request`,
+                    `/api/period/${props.id}/fossil`,
                     null,
                     {
                         headers: {
-                            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                            Authorization: `${localStorage.getItem("accessToken")}`,
                         },
                     }
                 );
@@ -52,21 +52,23 @@ const Card: React.FC<CardProps> = (props) => {
             }
         };
     return (
-        <CardBootstrap style={{ color: '#537459', width: '18rem', borderRadius: '20px', marginTop: '3rem', margin: '10% 10% 5% 10%' }}>
+        <CardBootstrap style={{ textDecoration: 'none', color: '#537459', width: '18rem', borderRadius: '20px', marginTop: '3rem', margin: '10% 10% 5% 10%' }}>
+            <Link to={`/WebAppDev_front/period/${props.id}`} style={{  marginRight: 'auto' }}>
             <CardBootstrap.Img variant="top" src={props.image} style={{width: '240px', height: '162px', borderRadius: '10px', display: 'block', margin: 'auto', marginTop: '20px'}}/>
-            <CardBootstrap.Body>
+            <CardBootstrap.Body style={{textDecoration: 'none',}}>
                 <CardBootstrap.Title>{props.name} </CardBootstrap.Title>
                 <CardBootstrap.Text>
                     {truncatedDescription}
                 </CardBootstrap.Text>
                 <>
-                    <Link to={`/WebAppDev_front/period/${props.id}`} style={{ marginRight: 'auto' }}>
-                        <Button variant="primary" style={{ borderColor: '#537459', borderRadius: '10px' ,backgroundColor: '#537459', color: '#d1e2d4' }}>Подробнее</Button>
-                    </Link>
-                    <CardBootstrap.Text style={{ color: '#537459', display: 'inline-block', fontWeight: 'bold', marginTop: '2%' }}>
+                    
+                        <Button variant="primary" onClick={handleAddToCard} style={{ borderColor: '#537459', borderRadius: '10px' ,backgroundColor: '#537459', color: '#d1e2d4' }}>Добавить</Button>
+                    
+                    <CardBootstrap.Text style={{ textDecoration: 'none', color: '#537459', display: 'inline-block', fontWeight: 'bold', marginTop: '2%' }}>
                     </CardBootstrap.Text>
                 </>
             </CardBootstrap.Body>
+            </Link>
         </CardBootstrap>
     );
 }

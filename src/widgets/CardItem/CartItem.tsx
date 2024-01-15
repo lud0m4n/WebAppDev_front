@@ -4,10 +4,21 @@ import axios from 'axios';
 
 interface CartItemProps {
   item: {
-    Name: string;
-    Price: number;
-  };
-  onRemove: (removedItem: { Name: string; Price: number }) => void;
+    id_period: number;
+    name: string;
+    description: string;
+    age: string;
+    status: string;
+    photo: string;
+};
+  onRemove: (removedItem: {
+    id_period: number;
+    name: string;
+    description: string;
+    age: string;
+    status: string;
+    photo: string;
+} ) => void;
 }
 
 const CartItem: React.FC<CartItemProps> = ({ item, onRemove }) => {
@@ -17,8 +28,7 @@ const CartItem: React.FC<CartItemProps> = ({ item, onRemove }) => {
 
   return (
     <tr>
-      <td>{item.Name}</td>
-      <td>{item.Price}</td>
+      <td>{item.name}</td>
       <td>
         <Button variant="danger" onClick={handleRemove}>
           Удалить

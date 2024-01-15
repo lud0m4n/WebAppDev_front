@@ -11,17 +11,28 @@ import { setNumOfProdInReq } from '../../redux/filterAndActiveRequestID/actions'
 import axios from 'axios';
 
 interface CartItem {
-  Id: number;
-  Name: string;
-  Price: number;
+  id_fossil: number;
+  species: string;
+  creation_date: string;
+  formation_date: string;
+  completion_date: string;
+  status: string;
+  periods: {
+    id_period: number;
+    name: string;
+    description: string;
+    age: string;
+    status: string;
+    photo: string;
+  }[];
 }
 
+
 const ShoppingCartPage: React.FC = () => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [cartItems, setCartItems] = useState<CartItem>({ id_fossil: 0, species: 'string', creation_date: 'string', formation_date: 'string', completion_date: 'string', status: 'string', periods: [] });
   const [showModal, setShowModal] = useState(false);
-  const [companyName, setCompanyName] = useState("");
-  const [consultationTime, setConsultationTime] = useState("");
-  const [consultationPlace, setConsultationPlace] = useState("");
+  const [species, setSpecies] = useState("");
+
   const [error, setError] = useState<string | null>(null);
   const numOfCons = useSelector((state: RootState) => state.filterAndActiveId.numOfCons);
   const dispatch = useDispatch();
@@ -33,22 +44,31 @@ const ShoppingCartPage: React.FC = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('/api/consultations/request', {
+      const response = await axios.get(`/api/fossil/${localStorage.getItem("ActiveRequestId")}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          Authorization: `${localStorage.getItem("accessToken")}`,
         },
       });
+      console.log(response.data)
       setCartItems(response.data);
+      console.log(Object.keys(cartItems).length)
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
 
-  const removeFromCart = async (removedItem: CartItem) => {
+  const removeFromCart = async (removedItem: {
+    id_period: number;
+    name: string;
+    description: string;
+    age: string;
+    status: string;
+    photo: string;
+}) => {
     try {
-      await axios.delete(`/api/consultation-request/delete/consultation/${removedItem.Id}/request/${localStorage.getItem("ActiveRequestId")}`, {
+      await axios.delete(`/api/period/${removedItem.id_period}/fossil/delete`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          Authorization: `${localStorage.getItem("accessToken")}`,
         },
       });
       dispatch(setNumOfProdInReq(numOfCons-1));
@@ -67,15 +87,15 @@ const ShoppingCartPage: React.FC = () => {
 
   const handleDeleteCart = async () => {
     try {
-      await axios.delete(`/api/requests/delete/${localStorage.getItem("ActiveRequestId")}`, {
+      await axios.delete(`/api/fossil/${localStorage.getItem("ActiveRequestId")}/delete`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          Authorization: `${localStorage.getItem("accessToken")}`,
         },
       });
       dispatch(setNumOfProdInReq(0));
       const updatedNumOfCons = 0;
       localStorage.setItem('numOfCons', updatedNumOfCons.toString());
-      navigate("/")
+      navigate("/WebAppDev_front")
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -89,41 +109,32 @@ const ShoppingCartPage: React.FC = () => {
     setShowModal(false);
   };
 
-  const handleFormRequest = async (companyName: string, consultationPlace: string, consultationTime: string) => {
-    const currentTime = new Date();
-    const selectedTime = new Date(consultationTime);
+  const handleFormRequest = async (species: string) => {
 
-    if (selectedTime <= currentTime) {
-      setError('Выберите время, которое позже текущего времени.');
-      return;
-    }
-
-    if (!consultationPlace || !companyName || !consultationTime) {
+    if (!species) {
       setError('Заполните поля.');
       return;
     }
 
     try {
       await axios.put(
-        `/api/requests/update/${localStorage.getItem("ActiveRequestId")}`,
+        `/api/fossil/${localStorage.getItem("ActiveRequestId")}/update`,
         {
-          "consultation_place": consultationPlace,
-          "consultation_time": consultationTime,
-          "company_name": companyName,
+          "species": species,
         },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            Authorization: `${localStorage.getItem("accessToken")}`,
           },
         }
       );
       try {
         await axios.put(
-          `/api/requests/${localStorage.getItem("ActiveRequestId")}/user/update-status`,
+          `/api/fossil/${localStorage.getItem("ActiveRequestId")}/status/user`,
           null,
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+              Authorization: `${localStorage.getItem("accessToken")}`,
             },
           }
         );
@@ -131,7 +142,7 @@ const ShoppingCartPage: React.FC = () => {
         dispatch(setNumOfProdInReq(0));
         const updatedNumOfCons = 0;
         localStorage.setItem('numOfCons', updatedNumOfCons.toString());
-        navigate("/")
+        navigate("/WebAppDev_front")
       } catch (error) {
         setError('Ошибка при отправке формы. Попробуйте позже')
         console.error('Error fetching data:', error);
@@ -153,35 +164,13 @@ const ShoppingCartPage: React.FC = () => {
           <Form>
             {/* Добавьте дополнительные поля ввода здесь */}
             <Form.Group className="mb-3" controlId="formAdditionalField1">
-              <Form.Label>Название компании</Form.Label>
+              <Form.Label>Название вида ископаемого</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Название компании"
-                name="companyName"
-                value={companyName}
-                onChange={(e) => setCompanyName(e.target.value)}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formAdditionalField2">
-              <Form.Label>Место консультации</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Место проведения консультации"
-                name="consultationPlace"
-                value={consultationPlace}
-                onChange={(e) => setConsultationPlace(e.target.value)}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formAdditionalField3">
-              <Form.Label>Время консультации</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Формат: 2023-12-31 18:30"
-                name="consultationTime"
-                value={consultationTime}
-                onChange={(e) => setConsultationTime(e.target.value)}
+                placeholder="Название вида"
+                name="species"
+                value={species}
+                onChange={(e) => setSpecies(e.target.value)}
               />
             </Form.Group>
           </Form>
@@ -191,7 +180,7 @@ const ShoppingCartPage: React.FC = () => {
           <Button variant="secondary" onClick={handleModalClose}>
             Закрыть
           </Button>
-          <Button variant="primary" onClick={() => handleFormRequest(companyName, consultationPlace, consultationTime)}>
+          <Button variant="primary" onClick={() => handleFormRequest(species)}>
             Отправить
           </Button>
         </Modal.Footer>
@@ -207,14 +196,15 @@ const ShoppingCartPage: React.FC = () => {
           <thead>
             <tr>
               <th>Название</th>
-              <th>Цена</th>
               <th>Действие</th>
             </tr>
           </thead>
           <tbody>
-            {cartItems.map((item) => (
-              <CartItem key={item.Name} item={item} onRemove={() => removeFromCart(item)} />
+            {cartItems.periods.map((item) => (
+              <CartItem key={item.name} item={item} onRemove={() => removeFromCart(item)} />
             ))}
+              {/* <CartItem key={cartItems.id_fossil} item={cartItems.species} onRemove={() => removeFromCart(cartItems.id_fossil)} /> */}
+
           </tbody>
         </Table>
         <Button variant="primary" onClick={handleSend}>
@@ -241,7 +231,7 @@ const ShoppingCartPage: React.FC = () => {
 
   return (
     <div>
-      {cartItems?.length > 0 ? <> <Navbar /> <div style={{ 'marginTop': '5%', 'marginLeft': '5%', 'marginRight': '5%' }}>
+      {Object.keys(cartItems).length > 0 ? <> <Navbar /> <div style={{ 'marginTop': '5%', 'marginLeft': '5%', 'marginRight': '5%' }}>
         {renderCart()}
       </div> </> : <> {renderLoading()} 
       <h2 style={{marginTop: "-20%", marginLeft: "5%"}}>Корзина пуста</h2></>}
