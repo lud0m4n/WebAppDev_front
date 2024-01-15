@@ -30,7 +30,7 @@ const Navbar = () => {
   return (
     <NavB expand="lg" bg="dark" data-bs-theme="dark" className="bg-body-tertiary">
       <Container fluid style={{ marginLeft: '5%' }}>
-        <Link className='navbar-link logo' to="/WebAppDev_front">Палеонтология</Link>
+        <Link className='navbar-link logo' to="/WebAppDev_front"><NavB.Brand>Палеонтология</NavB.Brand></Link>
         <NavB.Toggle aria-controls="navbarScroll" />
         <NavB.Collapse id="navbarScroll">
           <Nav

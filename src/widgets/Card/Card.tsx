@@ -53,7 +53,7 @@ const Card: React.FC<CardProps> = (props) => {
         };
     return (
         <CardBootstrap style={{ textDecoration: 'none', color: '#537459', width: '18rem', borderRadius: '20px', marginTop: '3rem', margin: '10% 10% 5% 10%' }}>
-            <Link to={`/WebAppDev_front/period/${props.id}`} style={{ textDecoration: 'none', color: '#537459',margin: 'auto' }}>
+            <Link to={`/WebAppDev_front/period/${props.id}`} style={{ textDecoration: 'none', color: '#537459' }}>
             <CardBootstrap.Img variant="top" src={props.image} style={{width: '240px', height: '162px', borderRadius: '10px', display: 'block', margin: 'auto', marginTop: '20px'}}/>
             <CardBootstrap.Body style={{textDecoration: 'none'}}>
                 <CardBootstrap.Title>{props.name} </CardBootstrap.Title>
