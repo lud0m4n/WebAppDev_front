@@ -22,7 +22,7 @@ const Card: React.FC<CardProps> = (props) => {
     const truncatedDescription = props.description.length > MAX_DESCRIPTION_LENGTH
         ? `${props.description.substring(0, MAX_DESCRIPTION_LENGTH)}...`
         : props.description;
-        const numOfCons = useSelector((state: RootState) => state.filterAndActiveId.numOfCons);
+        const numOfPeriods = useSelector((state: RootState) => state.filterAndActiveId.numOfPeriods);
         const dispatch = useDispatch();
     
         const handleAddToCard = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -38,13 +38,13 @@ const Card: React.FC<CardProps> = (props) => {
                         },
                     }
                 );
-                dispatch(setNumOfProdInReq((numOfCons + 1)));
-                const currentNumOfCons = localStorage.getItem('numOfCons');
-                const currentNum = currentNumOfCons ? parseInt(currentNumOfCons, 10) : 0;
-                const updatedNumOfCons = currentNum + 1;
-                localStorage.setItem('numOfCons', updatedNumOfCons.toString());
-                if (updatedNumOfCons != numOfCons) {
-                    dispatch(setNumOfProdInReq(updatedNumOfCons));
+                dispatch(setNumOfProdInReq((numOfPeriods + 1)));
+                const currentNumOfPeriods = localStorage.getItem('numOfPeriods');
+                const currentNum = currentNumOfPeriods ? parseInt(currentNumOfPeriods, 10) : 0;
+                const updatedNumOfPeriods = currentNum + 1;
+                localStorage.setItem('numOfPeriods', updatedNumOfPeriods.toString());
+                if (updatedNumOfPeriods != numOfPeriods) {
+                    dispatch(setNumOfProdInReq(updatedNumOfPeriods));
                 }
                 props.buttonAddClicked()
             } catch (error) {

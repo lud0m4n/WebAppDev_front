@@ -1,0 +1,22 @@
+.create-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+    padding-bottom: 40px;
+    background-color: #d1e2d4;
+    border-radius: 20px;
+  }
+  
+  .small-h1 {
+    font-size: 150%;
+  }
+  
+  .create-form {
+    width: 400px;
+  }
+  
+  .error-message {
+    margin-bottom: 2%;
+    color: rgb(191, 31, 31)
+  }

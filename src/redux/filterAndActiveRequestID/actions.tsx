@@ -7,9 +7,9 @@ export const setActiveRequestID = (activeRequestID: number) => ({
   payload: activeRequestID,
 });
 
-export const setMaxPriceFilter = (maxPrice: string | '') => ({
+export const setSearchNameFilter = (searchName: string | '') => ({
   type: SET_MAX_PRICE_FILTER,
-  payload: maxPrice,
+  payload: searchName,
 });
 
 export const setNumOfProdInReq = (numOfProdInReq: number | 0) => ({

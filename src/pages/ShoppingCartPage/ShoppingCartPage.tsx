@@ -3,12 +3,13 @@ import Navbar from '../../widgets/Navbar/Navbar';
 import Table from 'react-bootstrap/Table';
 import CartItem from '../../widgets/CardItem/CartItem';
 import { Button, Modal, Form } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Loader from '../../widgets/Loader/Loader';
 import { RootState } from '../../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { setNumOfProdInReq } from '../../redux/filterAndActiveRequestID/actions';
+import { setActiveRequestID, setSearchNameFilter, setNumOfProdInReq } from '../../redux/filterAndActiveRequestID/actions';
 import axios from 'axios';
+import { loginSuccess, loginFailure, setRole } from '../../redux/auth/authSlice';
 
 interface CartItem {
   id_fossil: number;
@@ -32,19 +33,53 @@ const ShoppingCartPage: React.FC = () => {
   const [cartItems, setCartItems] = useState<CartItem>({ id_fossil: 0, species: 'string', creation_date: 'string', formation_date: 'string', completion_date: 'string', status: 'string', periods: [] });
   const [showModal, setShowModal] = useState(false);
   const [species, setSpecies] = useState("");
+  const ActiveRequestId = useSelector((state: RootState) => state.filterAndActiveId.activeRequestID);
 
   const [error, setError] = useState<string | null>(null);
-  const numOfCons = useSelector((state: RootState) => state.filterAndActiveId.numOfCons);
+  const numOfPeriods = useSelector((state: RootState) => state.filterAndActiveId.numOfPeriods);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  useEffect(() => {
+  const { id } = useParams();
+  const checkRequestId = async () => {
+    if (window.localStorage.getItem("ActiveRequestId")) {
+      const idstr = window.localStorage.getItem("ActiveRequestId");
+      const id = idstr ? parseInt(idstr) : 0;
+      console.log(id)
+      await dispatch(setActiveRequestID(id));
+    }
+  }
+  const fetchDataAndCheckRequestId = async () => {
+    await checkRequestId();
     fetchData();
-  }, []);
+  };
+  useEffect(() => {
+    console.log('Cart useEffect is triggered');
+    const initializePage = async () => {
+      await fetchDataAndCheckRequestId();
+    };
+
+    initializePage();
+
+    if (window.localStorage.getItem("accessToken")) {
+      dispatch(loginSuccess())
+    }
+    if (window.localStorage.getItem("role")) {
+      const role = window.localStorage.getItem("role");
+      dispatch(setRole(role))
+    }
+    const currentNumOfPeriods = localStorage.getItem('numOfPeriods');
+    const currentNum = currentNumOfPeriods ? parseInt(currentNumOfPeriods, 10) : 0;
+    const updatedNumOfPeriods = currentNum;
+    localStorage.setItem('numOfPeriods', updatedNumOfPeriods.toString());
+    if (updatedNumOfPeriods != numOfPeriods) {
+      dispatch(setNumOfProdInReq(updatedNumOfPeriods));
+    }
+  }, [ActiveRequestId, numOfPeriods]);
 
   const fetchData = async () => {
+    if (ActiveRequestId != null) {
     try {
-      const response = await axios.get(`/api/fossil/${localStorage.getItem("ActiveRequestId")}`, {
+      const response = await axios.get(`/api/fossil/${id}`, {
         headers: {
           Authorization: `${localStorage.getItem("accessToken")}`,
         },
@@ -54,6 +89,7 @@ const ShoppingCartPage: React.FC = () => {
       console.log(Object.keys(cartItems).length)
     } catch (error) {
       console.error('Error fetching data:', error);
+    }
     }
   };
 
@@ -71,15 +107,17 @@ const ShoppingCartPage: React.FC = () => {
           Authorization: `${localStorage.getItem("accessToken")}`,
         },
       });
-      dispatch(setNumOfProdInReq(numOfCons-1));
-      const currentNumOfCons = localStorage.getItem('numOfCons');
-      const currentNum = currentNumOfCons ? parseInt(currentNumOfCons, 10) : 0;
-      const updatedNumOfCons = currentNum - 1;
-      localStorage.setItem('numOfCons', updatedNumOfCons.toString());
-      if (updatedNumOfCons != numOfCons) {
-          dispatch(setNumOfProdInReq(updatedNumOfCons));
+      dispatch(setNumOfProdInReq(numOfPeriods-1));
+      const currentNumOfPeriods = localStorage.getItem('numOfPeriods');
+      const currentNum = currentNumOfPeriods ? parseInt(currentNumOfPeriods, 10) : 0;
+      const updatedNumOfPeriods = currentNum - 1;
+      localStorage.setItem('numOfPeriods', updatedNumOfPeriods.toString());
+      if (updatedNumOfPeriods != numOfPeriods) {
+          dispatch(setNumOfProdInReq(updatedNumOfPeriods));
       }
-      fetchData();
+      if (numOfPeriods == 0) {
+        navigate('/WebAppDev_front')
+      }
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -93,8 +131,8 @@ const ShoppingCartPage: React.FC = () => {
         },
       });
       dispatch(setNumOfProdInReq(0));
-      const updatedNumOfCons = 0;
-      localStorage.setItem('numOfCons', updatedNumOfCons.toString());
+      const updatedNumOfPeriods = 0;
+      localStorage.setItem('numOfPeriods', updatedNumOfPeriods.toString());
       navigate("/WebAppDev_front")
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -140,8 +178,8 @@ const ShoppingCartPage: React.FC = () => {
         );
         setShowModal(false);
         dispatch(setNumOfProdInReq(0));
-        const updatedNumOfCons = 0;
-        localStorage.setItem('numOfCons', updatedNumOfCons.toString());
+        const updatedNumOfPeriods = 0;
+        localStorage.setItem('numOfPeriods', updatedNumOfPeriods.toString());
         navigate("/WebAppDev_front")
       } catch (error) {
         setError('Ошибка при отправке формы. Попробуйте позже')
@@ -226,7 +264,7 @@ const ShoppingCartPage: React.FC = () => {
       </>
     );
   };
-
+  
 
 
   return (

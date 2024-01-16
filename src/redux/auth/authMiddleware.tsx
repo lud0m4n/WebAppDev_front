@@ -22,9 +22,11 @@ const authMiddleware: Middleware = (store) => (next) => async (action) => {
                 store.dispatch(loginSuccess());
                 const token = response.data.access_token;
                 localStorage.setItem("accessToken", token);
+                localStorage.setItem('role', response.data.role);
                 store.dispatch(setRole(response.data.role))
-                const updatedNumOfCons = 0;
-                localStorage.setItem('numOfCons', updatedNumOfCons.toString());
+                console.log(response.data.role)
+                const updatedNumOfPeriods = 0;
+                localStorage.setItem('numOfPeriods', updatedNumOfPeriods.toString());
             } else {
                 console.log('loginFailure');
                 store.dispatch(loginFailure());
@@ -49,7 +51,8 @@ const authMiddleware: Middleware = (store) => (next) => async (action) => {
                 console.log('logoutSuccess');
                 store.dispatch(loginFailure());
                 localStorage.removeItem("accessToken"); // Удаляем токен из локального хранилища
-                localStorage.removeItem("numOfCons");
+                localStorage.removeItem("numOfPeriods");
+                localStorage.removeItem("role");
             } else {
                 localStorage.clear();
                 console.log('logoutFailure');
@@ -76,9 +79,11 @@ const authMiddleware: Middleware = (store) => (next) => async (action) => {
                 store.dispatch(loginSuccess()); // Dispatch your success action
                 const token = response.data.access_token;
                 localStorage.setItem("accessToken", token);
-                store.dispatch(setRole(response.data.role))
-                const updatedNumOfCons = 0;
-                localStorage.setItem('numOfCons', updatedNumOfCons.toString());
+                store.dispatch(setRole(response.data.role));
+                localStorage.setItem('role', response.data.role);
+
+                const updatedNumOfPeriods = 0;
+                localStorage.setItem('numOfPeriods', updatedNumOfPeriods.toString());
             } else {
                 store.dispatch(loginFailure()); // Dispatch your failure action
             }

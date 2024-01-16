@@ -8,8 +8,8 @@ import { ChangeEvent } from 'react';
 import testData from '../../data';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import { useDispatch, useSelector } from 'react-redux';
-import { setActiveRequestID, setMaxPriceFilter, setNumOfProdInReq } from '../../redux/filterAndActiveRequestID/actions';
-import { loginSuccess, loginFailure } from '../../redux/auth/authSlice';
+import { setActiveRequestID, setSearchNameFilter, setNumOfProdInReq } from '../../redux/filterAndActiveRequestID/actions';
+import { loginSuccess, setRole } from '../../redux/auth/authSlice';
 import { RootState } from '../../redux/store';
 import CartImg from '../../assets/cart-check-svgrepo-com.svg';
 import EmptyCartImg from '../../assets/cart-cross-svgrepo-com.svg'
@@ -28,16 +28,17 @@ interface Data {
 
 }
 const MainPage: React.FC = () => {
-    const maxPriceFilter = useSelector((state: RootState) => state.filterAndActiveId.maxPriceFilter);
+    const searchNameFilter = useSelector((state: RootState) => state.filterAndActiveId.searchNameFilter);
     const dispatch = useDispatch();
+    const role = useSelector((state: RootState) => state.auth.role);
     const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
     const activeRequest = useSelector((state: RootState) => state.filterAndActiveId.activeRequestID);
-    const numOfCons = useSelector((state: RootState) => state.filterAndActiveId.numOfCons);
+    const numOfPeriods = useSelector((state: RootState) => state.filterAndActiveId.numOfPeriods);
     const [data, setData] = useState<Data | null>({ id_fossil: 0, periods: [] });
     const fetchData = async () => {
-        console.log(maxPriceFilter)
+        console.log(searchNameFilter)
         try {
-            const url = maxPriceFilter ? `/api/period/?searchName=${maxPriceFilter}` : '/api/period/';
+            const url = searchNameFilter ? `/api/period/?searchName=${searchNameFilter}` : '/api/period/';
             let response
             if (!localStorage.getItem("accessToken")) {
                 response = await fetch(url);
@@ -62,17 +63,17 @@ const MainPage: React.FC = () => {
         } catch (error) {
             console.log(testData)
             let result = { ...testData }; // Создаем копию оригинальных данных
-            if (maxPriceFilter) {
-                result.periods = testData.periods.filter((periods) => periods.id_period <= maxPriceFilter);
+            if (searchNameFilter) {
+                result.periods = testData.periods.filter((periods) => periods.id_period <= searchNameFilter);
             }
             setData(result)
             console.error('ошибка при выполннении запроса:', error);
         }
     };
 
-    const handleMaxPriceChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const maxPriceString = e.target.value !== '' ? (e.target.value).toString() : '';
-        dispatch(setMaxPriceFilter(maxPriceString));
+    const handleSearchNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const searchNameString = e.target.value !== '' ? (e.target.value).toString() : '';
+        dispatch(setSearchNameFilter(searchNameString));
     };
     const buttonAddClicked = () => {
         if (!activeRequest) {
@@ -85,14 +86,19 @@ const MainPage: React.FC = () => {
         if (window.localStorage.getItem("accessToken")) {
             dispatch(loginSuccess())
         }
-        const currentNumOfCons = localStorage.getItem('numOfCons');
-        const currentNum = currentNumOfCons ? parseInt(currentNumOfCons, 10) : 0;
-        const updatedNumOfCons = currentNum;
-        localStorage.setItem('numOfCons', updatedNumOfCons.toString());
-        if (updatedNumOfCons != numOfCons) {
-            dispatch(setNumOfProdInReq(updatedNumOfCons));
+        const currentNumOfPeriods = localStorage.getItem('numOfPeriods');
+        const currentNum = currentNumOfPeriods ? parseInt(currentNumOfPeriods, 10) : 0;
+        const updatedNumOfPeriods = currentNum;
+        localStorage.setItem('numOfPeriods', updatedNumOfPeriods.toString());
+        if (updatedNumOfPeriods != numOfPeriods) {
+            dispatch(setNumOfProdInReq(updatedNumOfPeriods));
         }
-    }, [dispatch, maxPriceFilter]);
+        if (window.localStorage.getItem("role")) {
+            const role = window.localStorage.getItem("role");
+            // const role = roleString ? parseInt(roleString) : 0;
+            dispatch(setRole(role))
+        }
+    }, [dispatch, searchNameFilter]);
     return (
         <div>
             <Navbar />
@@ -100,6 +106,7 @@ const MainPage: React.FC = () => {
                 <Breadcrumb>
                     <Breadcrumb.Item href="/WebAppDev_front" active>Главная</Breadcrumb.Item>
                 </Breadcrumb>
+                    {role === "модератор" ? <Link to="/WebAppDev_front/main-page/admin">Сменить режим просмотра</Link> : null}
                 <Form
                     className="d-flex"
                     id="search"
@@ -110,9 +117,9 @@ const MainPage: React.FC = () => {
                         placeholder="Поиск по названию"
                         className="me-2"
                         aria-label="Search"
-                        value={maxPriceFilter}
+                        value={searchNameFilter}
                         style={{ color: "#d1f1d7", width: "20%", minWidth: "250px", marginTop: "0.7%"} }
-                        onChange={handleMaxPriceChange}
+                        onChange={handleSearchNameChange}
                     />
                 </Form>
                 {/* || data?.periods.length === 0 */}
@@ -134,8 +141,8 @@ const MainPage: React.FC = () => {
                     ))}
                 </div>
                 {isAuthenticated ?
-                            ((localStorage.getItem("ActiveRequestId") != '0') && (numOfCons > 0)) ?
-                                <Link className='cart' to='/WebAppDev_front/shopping-cart'>
+                            ((localStorage.getItem("ActiveRequestId") != '0') && (numOfPeriods > 0)) ?
+                                <Link className='cart' to={`/WebAppDev_front/request/${localStorage.getItem("ActiveRequestId")}`}>
                                     <img src={CartImg} />
                                 </Link> :
                                 <Link className='cart empty' to='/WebAppDev_front/shopping-cart' >

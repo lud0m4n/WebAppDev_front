@@ -2,12 +2,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface AuthState {
   isAuthenticated: boolean;
-  role: number | -1;
+  role: string | null;
 }
 
 const initialState: AuthState = {
   isAuthenticated: false,
-  role: -1
+  role: null
 };
 
 const authSlice = createSlice({
@@ -19,9 +19,9 @@ const authSlice = createSlice({
     },
     loginFailure: (state) => {
       state.isAuthenticated = false;
-      state.role = -1;
+      state.role = null;
     },
-    setRole: (state, action: PayloadAction<number | -1>) => {
+    setRole: (state, action: PayloadAction<string | null>) => {
       state.role = action.payload;
     },
   },

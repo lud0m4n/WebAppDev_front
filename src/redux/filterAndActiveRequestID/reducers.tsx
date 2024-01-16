@@ -16,7 +16,7 @@ const activeRequestIDReducer = (state: number | null = null, action: AnyAction) 
   }
 };
 
-const maxPriceFilterReducer = (state: string | '' = '', action: AnyAction) => {
+const searchNameFilterReducer = (state: string | '' = '', action: AnyAction) => {
   switch (action.type) {
     case SET_MAX_PRICE_FILTER:
       return action.payload;
@@ -25,7 +25,7 @@ const maxPriceFilterReducer = (state: string | '' = '', action: AnyAction) => {
   }
 };
 
-const numOfConsReducer = (state: number | 0 = 0, action: AnyAction) => {
+const numOfPeriodsReducer = (state: number | 0 = 0, action: AnyAction) => {
   switch (action.type) {
     case SET_NUM_OF_PROD_IN_REQ:
       return action.payload;
@@ -36,6 +36,6 @@ const numOfConsReducer = (state: number | 0 = 0, action: AnyAction) => {
 
 export const filterAndActiveIdReducer = combineReducers({
   activeRequestID: activeRequestIDReducer,
-  maxPriceFilter: maxPriceFilterReducer,
-  numOfCons: numOfConsReducer,
+  searchNameFilter: searchNameFilterReducer,
+  numOfPeriods: numOfPeriodsReducer,
 });

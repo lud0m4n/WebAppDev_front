@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const dispatch = useDispatch();
-  const maxPriceFilter = useSelector((state: RootState) => state.filterAndActiveId.maxPriceFilter);
+  const searchNameFilter = useSelector((state: RootState) => state.filterAndActiveId.searchNameFilter);
 
 
   const handleLogout = async (e: React.MouseEvent) => {
