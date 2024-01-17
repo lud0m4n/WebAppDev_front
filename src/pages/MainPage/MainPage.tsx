@@ -8,7 +8,7 @@ import { ChangeEvent } from 'react';
 import testData from '../../data';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import { useDispatch, useSelector } from 'react-redux';
-import { setActiveRequestID, setSearchNameFilter, setNumOfProdInReq } from '../../redux/filterAndActiveRequestID/actions';
+import { setActiveFossilID, setSearchNameFilter, setNumOfProdInReq } from '../../redux/filterAndActiveFossilID/actions';
 import { loginSuccess, setRole } from '../../redux/auth/authSlice';
 import { RootState } from '../../redux/store';
 import CartImg from '../../assets/cart-check-svgrepo-com.svg';
@@ -32,7 +32,7 @@ const MainPage: React.FC = () => {
     const dispatch = useDispatch();
     const role = useSelector((state: RootState) => state.auth.role);
     const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
-    const activeRequest = useSelector((state: RootState) => state.filterAndActiveId.activeRequestID);
+    const activeFossil = useSelector((state: RootState) => state.filterAndActiveId.activeFossilID);
     const numOfPeriods = useSelector((state: RootState) => state.filterAndActiveId.numOfPeriods);
     const [data, setData] = useState<Data | null>({ id_fossil: 0, periods: [] });
     const fetchData = async () => {
@@ -56,8 +56,8 @@ const MainPage: React.FC = () => {
 
             const result = await response.json();
             const idFossil = result?.id_fossil || '';
-            localStorage.setItem("ActiveRequestId", idFossil);
-            dispatch(setActiveRequestID(idFossil));
+            localStorage.setItem("ActiveFossilId", idFossil);
+            dispatch(setActiveFossilID(idFossil));
             console.log(idFossil);
             setData(result);
         } catch (error) {
@@ -76,7 +76,7 @@ const MainPage: React.FC = () => {
         dispatch(setSearchNameFilter(searchNameString));
     };
     const buttonAddClicked = () => {
-        if (!activeRequest) {
+        if (!activeFossil) {
             fetchData()
         }
     }
@@ -141,8 +141,8 @@ const MainPage: React.FC = () => {
                     ))}
                 </div>
                 {isAuthenticated ?
-                            ((localStorage.getItem("ActiveRequestId") != '0') && (numOfPeriods > 0)) ?
-                                <Link className='cart' to={`/WebAppDev_front/request/${localStorage.getItem("ActiveRequestId")}`}>
+                            ((localStorage.getItem("ActiveFossilId") != '0') && (numOfPeriods > 0)) ?
+                                <Link className='cart' to={`/WebAppDev_front/fossil/${localStorage.getItem("ActiveFossilId")}`}>
                                     <img src={CartImg} />
                                 </Link> :
                                 <Link className='cart empty' to='/WebAppDev_front/shopping-cart' >

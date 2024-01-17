@@ -7,7 +7,7 @@ import Table from 'react-bootstrap/Table';
 import { Form, Button, Modal } from 'react-bootstrap';
 import { ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
-import { setSearchNameFilter } from '../../redux/filterAndActiveRequestID/actions';
+import { setSearchNameFilter } from '../../redux/filterAndActiveFossilID/actions';
 import { loginSuccess, setRole } from '../../redux/auth/authSlice';
 import axios from 'axios';
 import addImg from '../../assets/add-square-svgrepo-com.svg'

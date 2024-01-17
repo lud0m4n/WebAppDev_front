@@ -7,7 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Loader from '../../widgets/Loader/Loader';
 import { RootState } from '../../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { setActiveRequestID, setSearchNameFilter, setNumOfProdInReq } from '../../redux/filterAndActiveRequestID/actions';
+import { setActiveFossilID, setSearchNameFilter, setNumOfProdInReq } from '../../redux/filterAndActiveFossilID/actions';
 import axios from 'axios';
 import { loginSuccess, loginFailure, setRole } from '../../redux/auth/authSlice';
 
@@ -33,29 +33,29 @@ const ShoppingCartPage: React.FC = () => {
   const [cartItems, setCartItems] = useState<CartItem>({ id_fossil: 0, species: 'string', creation_date: 'string', formation_date: 'string', completion_date: 'string', status: 'string', periods: [] });
   const [showModal, setShowModal] = useState(false);
   const [species, setSpecies] = useState("");
-  const ActiveRequestId = useSelector((state: RootState) => state.filterAndActiveId.activeRequestID);
+  const ActiveFossilId = useSelector((state: RootState) => state.filterAndActiveId.activeFossilID);
 
   const [error, setError] = useState<string | null>(null);
   const numOfPeriods = useSelector((state: RootState) => state.filterAndActiveId.numOfPeriods);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
-  const checkRequestId = async () => {
-    if (window.localStorage.getItem("ActiveRequestId")) {
-      const idstr = window.localStorage.getItem("ActiveRequestId");
+  const checkFossilId = async () => {
+    if (window.localStorage.getItem("ActiveFossilId")) {
+      const idstr = window.localStorage.getItem("ActiveFossilId");
       const id = idstr ? parseInt(idstr) : 0;
       console.log(id)
-      await dispatch(setActiveRequestID(id));
+      await dispatch(setActiveFossilID(id));
     }
   }
-  const fetchDataAndCheckRequestId = async () => {
-    await checkRequestId();
+  const fetchDataAndCheckFossilId = async () => {
+    await checkFossilId();
     fetchData();
   };
   useEffect(() => {
     console.log('Cart useEffect is triggered');
     const initializePage = async () => {
-      await fetchDataAndCheckRequestId();
+      await fetchDataAndCheckFossilId();
     };
 
     initializePage();
@@ -74,10 +74,10 @@ const ShoppingCartPage: React.FC = () => {
     if (updatedNumOfPeriods != numOfPeriods) {
       dispatch(setNumOfProdInReq(updatedNumOfPeriods));
     }
-  }, [ActiveRequestId, numOfPeriods]);
+  }, [ActiveFossilId, numOfPeriods]);
 
   const fetchData = async () => {
-    if (ActiveRequestId != null) {
+    if (ActiveFossilId != null) {
     try {
       const response = await axios.get(`/api/fossil/${id}`, {
         headers: {
@@ -125,7 +125,7 @@ const ShoppingCartPage: React.FC = () => {
 
   const handleDeleteCart = async () => {
     try {
-      await axios.delete(`/api/fossil/${localStorage.getItem("ActiveRequestId")}/delete`, {
+      await axios.delete(`/api/fossil/${localStorage.getItem("ActiveFossilId")}/delete`, {
         headers: {
           Authorization: `${localStorage.getItem("accessToken")}`,
         },
@@ -147,7 +147,7 @@ const ShoppingCartPage: React.FC = () => {
     setShowModal(false);
   };
 
-  const handleFormRequest = async (species: string) => {
+  const handleFormFossil = async (species: string) => {
 
     if (!species) {
       setError('Заполните поля.');
@@ -156,7 +156,7 @@ const ShoppingCartPage: React.FC = () => {
 
     try {
       await axios.put(
-        `/api/fossil/${localStorage.getItem("ActiveRequestId")}/update`,
+        `/api/fossil/${localStorage.getItem("ActiveFossilId")}/update`,
         {
           "species": species,
         },
@@ -168,7 +168,7 @@ const ShoppingCartPage: React.FC = () => {
       );
       try {
         await axios.put(
-          `/api/fossil/${localStorage.getItem("ActiveRequestId")}/status/user`,
+          `/api/fossil/${localStorage.getItem("ActiveFossilId")}/status/user`,
           null,
           {
             headers: {
@@ -218,7 +218,7 @@ const ShoppingCartPage: React.FC = () => {
           <Button variant="secondary" onClick={handleModalClose}>
             Закрыть
           </Button>
-          <Button variant="primary" onClick={() => handleFormRequest(species)}>
+          <Button variant="primary" onClick={() => handleFormFossil(species)}>
             Отправить
           </Button>
         </Modal.Footer>

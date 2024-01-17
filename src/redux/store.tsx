@@ -1,24 +1,24 @@
 // store.ts
 import { configureStore } from "@reduxjs/toolkit";
 import authMiddleware from "./auth/authMiddleware";
-import requestsMiddleware from "./request/requestMiddleware";
+import fossilsMiddleware from "./fossil/fossilMiddleware";
 import authReducer from "./auth/authSlice";
-import requestReducer from "./request/requestSlice"; // Добавили этот импорт
-import {filterAndActiveIdReducer} from "./filterAndActiveRequestID/reducers"
-import { requestFilterReducer } from "./requestFilters/reducers";
+import fossilReducer from "./fossil/fossilSlice"; // Добавили этот импорт
+import {filterAndActiveIdReducer} from "./filterAndActiveFossilID/reducers"
+import { fossilFilterReducer } from "./fossilFilters/reducers";
 
 const store = configureStore({
   reducer: {
     auth: authReducer,
-    request: requestReducer,
+    fossil: fossilReducer,
     filterAndActiveId: filterAndActiveIdReducer,
-    requestFilters: requestFilterReducer,
+    fossilFilters: fossilFilterReducer,
     // Добавьте другие редюсеры, если необходимо
   },
   middleware: (getDefaultMiddleware) =>
   getDefaultMiddleware({
     serializableCheck: false,
-  }).concat(authMiddleware, requestsMiddleware),
+  }).concat(authMiddleware, fossilsMiddleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

@@ -3,14 +3,14 @@ import axios from 'axios';
 
 const API_BASE_URL = "/api";
 
-import { getAllRequestsSuccess } from "./requestSlice";
+import { getAllFossilsSuccess } from "./fossilSlice";
 
-export const getRequestDetails = createAsyncThunk(
-  "/WebAppDev_front/requests/getRequestDetails",
+export const getFossilDetails = createAsyncThunk(
+  "/WebAppDev_front/fossils/getFossilDetails",
   async (id: string, { dispatch }) => {
     try {
       const response = await axios.get(`${API_BASE_URL}/fossil/${id}`);
-      dispatch(getAllRequestsSuccess(response.data));
+      dispatch(getAllFossilsSuccess(response.data));
       return response.data;
     } catch (error) {
       throw error;
@@ -18,12 +18,12 @@ export const getRequestDetails = createAsyncThunk(
   }
 );
 
-export const deleteDraftRequest = createAsyncThunk(
-  "/WebAppDev_front/requests/deleteRequest",
+export const deleteDraftFossil = createAsyncThunk(
+  "/WebAppDev_front/fossils/deleteFossil",
   async (id: string, { dispatch }) => {
     try {
       const response = await axios.delete(`${API_BASE_URL}/fossil/${id}/delete`);
-      dispatch(getAllRequestsSuccess(response.data));
+      dispatch(getAllFossilsSuccess(response.data));
       return response.data;
     } catch (error) {
       throw error;
@@ -31,12 +31,12 @@ export const deleteDraftRequest = createAsyncThunk(
   }
 );
 
-export const formRequest = createAsyncThunk(
-  "/WebAppDev_front/requests/formRequest",
+export const formFossil = createAsyncThunk(
+  "/WebAppDev_front/fossils/formFossil",
   async (id: string, { dispatch }) => {
     try {
       const response = await axios.put(`/fossil/${id}/status/user`);
-      dispatch(getAllRequestsSuccess(response.data));
+      dispatch(getAllFossilsSuccess(response.data));
       return response.data;
     } catch (error) {
       throw error;
@@ -45,7 +45,7 @@ export const formRequest = createAsyncThunk(
 );
 
 export const updateSpecies = createAsyncThunk(
-  "/WebAppDev_front/requests/updateSpecies",
+  "/WebAppDev_front/fossils/updateSpecies",
   async (
     { id, flight_number }: { id: string; flight_number: string },
     { dispatch }
@@ -54,7 +54,7 @@ export const updateSpecies = createAsyncThunk(
       const response = await axios.put(`${API_BASE_URL}/fossil/${id}/update`, {
         flight_number,
       });
-      dispatch(getAllRequestsSuccess(response.data));
+      dispatch(getAllFossilsSuccess(response.data));
       return response.data;
     } catch (error) {
       throw error;
@@ -62,7 +62,7 @@ export const updateSpecies = createAsyncThunk(
   }
 );
 // Асинхронный action creator для получения данных о заявках
-export const getAllRequests  = createAsyncThunk('/WebAppDev_front/requests', async (filters, { getState }) => {
+export const getAllFossils  = createAsyncThunk('/WebAppDev_front/fossils', async (filters, { getState }) => {
   try {
     // Используйте getState() для доступа к текущему состоянию Redux и извлечения фильтров
 

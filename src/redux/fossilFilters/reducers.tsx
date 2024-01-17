@@ -44,7 +44,7 @@ const userReducer = (state: string | '' = '', action: AnyAction) => {
     }
 };
 
-export const requestFilterReducer = combineReducers({
+export const fossilFilterReducer = combineReducers({
     startDate: startDateReducer,
     endDate: endDateReducer,
     status: statusReducer,

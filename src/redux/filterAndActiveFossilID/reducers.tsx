@@ -7,7 +7,7 @@ import {
   SET_NUM_OF_PROD_IN_REQ,
 } from './actions';
 
-const activeRequestIDReducer = (state: number | null = null, action: AnyAction) => {
+const activeFossilIDReducer = (state: number | null = null, action: AnyAction) => {
   switch (action.type) {
     case SET_ACTIVE_REQUEST_ID:
       return action.payload;
@@ -35,7 +35,7 @@ const numOfPeriodsReducer = (state: number | 0 = 0, action: AnyAction) => {
 };
 
 export const filterAndActiveIdReducer = combineReducers({
-  activeRequestID: activeRequestIDReducer,
+  activeFossilID: activeFossilIDReducer,
   searchNameFilter: searchNameFilterReducer,
   numOfPeriods: numOfPeriodsReducer,
 });

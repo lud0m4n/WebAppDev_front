@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllRequests } from '../../redux/request/requestActions';
+import { getAllFossils } from '../../redux/fossil/fossilActions';
 import { RootState } from '../../redux/store';
 import Navbar from '../../widgets/Navbar/Navbar';
 import Loader from '../../widgets/Loader/Loader';
@@ -8,11 +8,11 @@ import Table from 'react-bootstrap/Table';
 
 
 
-const AllRequestsPage = () => {
+const AllFossilsPage = () => {
   const dispatch = useDispatch();
-  const requests = useSelector((state: RootState) => state.request.fossils);
-  // const status = useSelector((state: RootState) => state.request.status);
-  console.log(requests)
+  const fossils = useSelector((state: RootState) => state.fossil.fossils);
+  // const status = useSelector((state: RootState) => state.fossil.status);
+  console.log(fossils)
   const formattedTime = (timestamp: string) => {
     if (timestamp.includes('0001-01-01')) {
       return "Не установлено";
@@ -30,10 +30,10 @@ const AllRequestsPage = () => {
     return formattedDate
   };
   useEffect(() => {
-    dispatch(getAllRequests());
+    dispatch(getAllFossils());
   }, [dispatch]);
 
-  if (!requests || requests.length === 0) {
+  if (!fossils || fossils.length === 0) {
     return (
       <>
       <Navbar/>
@@ -49,7 +49,7 @@ const AllRequestsPage = () => {
         <Table striped bordered hover>
           <thead>
             {/* <tr>
-              {Object.keys(requests[0]).map((key) => (
+              {Object.keys(fossils[0]).map((key) => (
                 <th key={key}>{key}</th>
               ))} */}
             <tr>
@@ -62,9 +62,9 @@ const AllRequestsPage = () => {
             </tr>
           </thead>
           <tbody>
-          {requests.map((request, index) => (
+          {fossils.map((fossil, index) => (
   <tr key={index}>
-    {Object.values(request).map((value, columnIndex) => {
+    {Object.values(fossil).map((value, columnIndex) => {
       const excludedIndices = [0, 6];
       const timeRows = [2, 3, 4];
 
@@ -85,4 +85,4 @@ const AllRequestsPage = () => {
   );
 };
 
-export default AllRequestsPage;
+export default AllFossilsPage;

@@ -40,7 +40,7 @@ const Navbar = () => {
           >
             <Link className='navbar-link' to="/WebAppDev_front">Главная</Link>
             {window.localStorage.getItem("accessToken") ? (
-              <Link className='navbar-link' to="/WebAppDev_front/requests">
+              <Link className='navbar-link' to="/WebAppDev_front/fossils">
                 Заявки
               </Link>
             ) : null}

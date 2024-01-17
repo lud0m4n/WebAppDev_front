@@ -4,7 +4,7 @@ import CardBootstrap from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
 import { RootState } from '../../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { setNumOfProdInReq } from '../../redux/filterAndActiveRequestID/actions';
+import { setNumOfProdInReq } from '../../redux/filterAndActiveFossilID/actions';
 import axios from 'axios';
 
 interface CardProps {

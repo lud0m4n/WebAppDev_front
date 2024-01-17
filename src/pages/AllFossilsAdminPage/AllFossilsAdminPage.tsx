@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setStartDateFilter, setEndDateFilter, setStatusFilter, setUserFilter } from '../../redux/requestFilters/actions';
+import { setStartDateFilter, setEndDateFilter, setStatusFilter, setUserFilter } from '../../redux/fossilFilters/actions';
 import { RootState } from '../../redux/store';
 import Navbar from '../../widgets/Navbar/Navbar';
 import Loader from '../../widgets/Loader/Loader';
@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios'
 import './styles.css'
 
-interface Request {
+interface Fossil {
     id_fossil: number;
     Species: string;
     StartDate: string;
@@ -20,14 +20,14 @@ interface Request {
     FullName: string;
 }
 
-const AllRequestsAdminPage = () => {
+const AllFossilsAdminPage = () => {
     const dispatch = useDispatch();
-    const startDate = useSelector((state: RootState) => state.requestFilters.startDate);
-    const endDate = useSelector((state: RootState) => state.requestFilters.endDate);
-    const status = useSelector((state: RootState) => state.requestFilters.status);
-    const user = useSelector((state: RootState) => state.requestFilters.user);
+    const startDate = useSelector((state: RootState) => state.fossilFilters.startDate);
+    const endDate = useSelector((state: RootState) => state.fossilFilters.endDate);
+    const status = useSelector((state: RootState) => state.fossilFilters.status);
+    const user = useSelector((state: RootState) => state.fossilFilters.user);
     const [localUser, setLocalUser] = useState(user);
-    const [requests, setRequests] = useState<Request[] | null>(null);
+    const [fossils, setFossils] = useState<Fossil[] | null>(null);
 
 
     useEffect(() => {
@@ -80,10 +80,10 @@ const AllRequestsAdminPage = () => {
             let filteredResult = result
             if (localUser != '') {
                 console.log('123321')
-                filteredResult = result?.filter((item: Request) => item.FullName.includes(localUser)) || result
+                filteredResult = result?.filter((item: Fossil) => item.FullName.includes(localUser)) || result
             }
             console.log(filteredResult)
-            setRequests(filteredResult);
+            setFossils(filteredResult);
         } catch (error) {
             console.error('ошибка при выполнении запроса:', error);
         }
@@ -103,10 +103,10 @@ const AllRequestsAdminPage = () => {
 
 
 
-    const handleChangeStatus = async (requestId: number, Newstatus: string) => {
+    const handleChangeStatus = async (fossilId: number, Newstatus: string) => {
         try {
             await axios.put(
-                `/api/fossil/${requestId}/status/moderator`,
+                `/api/fossil/${fossilId}/status/moderator`,
                 {
                     "status": Newstatus,
                 },
@@ -147,8 +147,8 @@ const AllRequestsAdminPage = () => {
 
     useEffect(() => {
         if (localUser != "") {
-            const previos = requests
-            setRequests(requests?.filter((item: Request) => item.FullName.includes(localUser)) || previos);
+            const previos = fossils
+            setFossils(fossils?.filter((item: Fossil) => item.FullName.includes(localUser)) || previos);
         }
     }, [localUser])
 
@@ -160,7 +160,7 @@ const AllRequestsAdminPage = () => {
 
     }, [startDate, endDate, status, localUser]);
 
-    if (!requests) {
+    if (!fossils) {
         return <div><Navbar /> <Loader /></div>
     }
 
@@ -202,7 +202,7 @@ const AllRequestsAdminPage = () => {
                         Сбросить фильтры
                     </Button>
                 </div>
-                {(requests?.length == 0) ? <h1 className='small-h1' style={{ marginTop: '5%' }}>Нет данных, которые соответствуют фильтрам</h1> :
+                {(fossils?.length == 0) ? <h1 className='small-h1' style={{ marginTop: '5%' }}>Нет данных, которые соответствуют фильтрам</h1> :
                     <div className='table-responsive'>
                         <Table striped bordered hover>
                             <thead>
@@ -220,30 +220,30 @@ const AllRequestsAdminPage = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {requests?.map((request, index) => (
+                                {fossils?.map((fossil, index) => (
                                     <tr key={index}>
-                                        {Object.values(request).map((value, index) => {
+                                        {Object.values(fossil).map((value, index) => {
                                             const excludedIndices = [0];
                                             const timeRows = [2, 3, 4]
-                                            console.log(request.status);
+                                            console.log(fossil.status);
                                             return excludedIndices.includes(index) ? null :
                                                 timeRows.includes(index) ? <td key={index}>{formattedTime(value as string) as React.ReactNode}</td> :
                                                     <td key={index}>{value as React.ReactNode}</td>;
                                         })}
-                                        {request.status === 'завершен' || request.status === "отклонен" ?
+                                        {fossil.status === 'завершен' || fossil.status === "отклонен" ?
                                             <>
                                                 <td>Заявка закончена</td>
                                                 <td>Заявка закончена</td>
-                                                <td><Link to={`/WebAppDev_front/request/${request.id_fossil}`}>Подробнее</Link></td>
+                                                <td><Link to={`/WebAppDev_front/fossil/${fossil.id_fossil}`}>Подробнее</Link></td>
                                             </> :
                                             <>
-                                                <td><Button variant="primary" onClick={() => { handleChangeStatus(request.id_fossil, 'завершен') }}>
+                                                <td><Button variant="primary" onClick={() => { handleChangeStatus(fossil.id_fossil, 'завершен') }}>
                                                     Закончить
                                                 </Button></td>
-                                                <td><Button variant="danger" onClick={() => { handleChangeStatus(request.id_fossil, 'отклонен') }}>
+                                                <td><Button variant="danger" onClick={() => { handleChangeStatus(fossil.id_fossil, 'отклонен') }}>
                                                     Отменить
                                                 </Button></td>
-                                                <td><Link to={`/WebAppDev_front/request/${request.id_fossil}`}>Подробнее</Link></td>
+                                                <td><Link to={`/WebAppDev_front/fossil/${fossil.id_fossil}`}>Подробнее</Link></td>
 
                                             </>}
                                     </tr>
@@ -256,4 +256,4 @@ const AllRequestsAdminPage = () => {
     );
 }
 
-export default AllRequestsAdminPage;
+export default AllFossilsAdminPage;
