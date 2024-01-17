@@ -8,29 +8,29 @@ import { Navbar as NavB } from 'react-bootstrap';
 import { useState } from 'react';
 
 interface NavbarProps {
-  onMaxPriceChange?: (value: string) => void; // Define the prop type
+  onSearchNameChange?: (value: string) => void; // Define the prop type
 }
 
-const Navbar: React.FC<NavbarProps> = ({ onMaxPriceChange }) => {
-  const [maxPrice, setMaxPrice] = useState('');
+const Navbar: React.FC<NavbarProps> = ({ onSearchNameChange }) => {
+  const [searchName, setSearchName] = useState('');
 
-  const handleMaxPriceChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleSearchNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
     const value = e.target.value;
-    setMaxPrice(value);
+    setSearchName(value);
 
-    // Check if onMaxPriceChange is defined before calling it
-    if (onMaxPriceChange !== undefined) {
-      onMaxPriceChange(value);
+    // Check if onSearchNameChange is defined before calling it
+    if (onSearchNameChange !== undefined) {
+      onSearchNameChange(value);
     }
   };
 
   const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Вызываем onMaxPriceChange при отправке формы
-    if (onMaxPriceChange && maxPrice.trim() !== '') {
-      onMaxPriceChange(maxPrice);
+    // Вызываем onSearchNameChange при отправке формы
+    if (onSearchNameChange && searchName.trim() !== '') {
+      onSearchNameChange(searchName);
     }
   };
 
@@ -58,15 +58,15 @@ const Navbar: React.FC<NavbarProps> = ({ onMaxPriceChange }) => {
               placeholder="Поиск по названию"
               className="me-2"
               aria-label="Search"
-              value={maxPrice}
-              onChange={handleMaxPriceChange}
+              value={searchName}
+              onChange={handleSearchNameChange}
             />
             <Button
               variant="outline-success"
               onClick={(e) => {
                 e.preventDefault();
-                if (onMaxPriceChange !== undefined) {
-                  onMaxPriceChange(maxPrice);
+                if (onSearchNameChange !== undefined) {
+                  onSearchNameChange(searchName);
                 }
               }}
               className="me-3"

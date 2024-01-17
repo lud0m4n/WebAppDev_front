@@ -21,11 +21,11 @@ interface Data {
 const MainPage: React.FC = () => {
     const navigate = useNavigate();
     const [data, setData] = useState<Data | null>({ id_fossil: 0, periods: [] });
-    const [maxPrice, setMaxPrice] = useState<string | null>(null);
+    const [searchName, setSearchName] = useState<string | null>(null);
 
-    const fetchData = async (maxPrice?: string) => {
+    const fetchData = async (searchName?: string) => {
         try {
-            const url = `http://localhost:8081/period/?searchName=${maxPrice}`;
+            const url = `http://localhost:8081/period/?searchName=${searchName}`;
             const response = await fetch(url);
             if (!response.ok) {
                 throw new Error(`Ошибка при выполнении запроса: ${response.statusText}`);
@@ -37,38 +37,38 @@ const MainPage: React.FC = () => {
         } catch (error) {
             console.log(testData)
             let result = { ...testData }; // Создаем копию оригинальных данных
-            if (maxPrice) {
-                result.periods = testData.periods.filter((periods) => periods.id_period <= parseInt(maxPrice));
+            if (searchName) {
+                result.periods = testData.periods.filter((periods) => periods.id_period <= parseInt(searchName));
             }
             setData(result)
             console.error('ошибка при выполннении запроса:', error);
         }
     };
 
-    const handleMaxPriceChange = (value: string) => {
-        setMaxPrice(value !== '' ? value : null);
+    const handleSearchNameChange = (value: string) => {
+        setSearchName(value !== '' ? value : null);
 
         // Обновляем URL с использованием navigate
-        const maxPriceString = value !== '' ? value : '';
-        navigate(`?searchName=${maxPriceString}`, { replace: true });
+        const searchNameSring = value !== '' ? value : '';
+        navigate(`?searchName=${searchNameSring}`, { replace: true });
 
-        fetchData(maxPriceString); // Вызывайте fetchData при изменении maxPrice
+        fetchData(searchNameSring); // Вызывайте fetchData при изменении searchName
     };
 
     useEffect(() => {
-        // Получаем значение maxPrice из URL при монтировании компонента
+        // Получаем значение searchName из URL при монтировании компонента
         const urlSearchParams = new URLSearchParams(window.location.search);
-        const maxPriceParam = urlSearchParams.get('searchName') || '';
-        const parsedMaxPrice = maxPriceParam !== null ? maxPriceParam : null;
+        const searchNameParam = urlSearchParams.get('searchName') || '';
+        const parsedSearchName = searchNameParam !== null ? searchNameParam : null;
 
-        if (parsedMaxPrice !== maxPrice) {
-            setMaxPrice(parsedMaxPrice);
-            fetchData(maxPriceParam);
+        if (parsedSearchName !== searchName) {
+            setSearchName(parsedSearchName);
+            fetchData(searchNameParam);
         }
-    }, [maxPrice]);
+    }, [searchName]);
     return (
         <div>
-            <Navbar onMaxPriceChange={handleMaxPriceChange} />
+            <Navbar onSearchNameChange={handleSearchNameChange} />
             <div className="container">
                 <Breadcrumb>
                     <Breadcrumb.Item href="/" active>Главная</Breadcrumb.Item>
