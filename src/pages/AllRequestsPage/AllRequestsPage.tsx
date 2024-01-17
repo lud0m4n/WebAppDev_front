@@ -65,7 +65,7 @@ const AllRequestsPage = () => {
           {requests.map((request, index) => (
   <tr key={index}>
     {Object.values(request).map((value, columnIndex) => {
-      const excludedIndices = [0];
+      const excludedIndices = [0, 6];
       const timeRows = [2, 3, 4];
 
       if (excludedIndices.includes(columnIndex)) {
