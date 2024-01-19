@@ -1,6 +1,6 @@
 import './PeriodPage.css';
 import Navbar from '../../widgets/Navbar/Navbar.tsx';
-import Button from 'react-bootstrap/Button';
+// import Button from 'react-bootstrap/Button';
 import { useParams } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
@@ -63,7 +63,7 @@ interface PeriodData {
                         <p className="text card-description-selected">{data?.description}</p>
                         <div className="bottom-part">
                             <p className="text card-price-selected">{data?.age}</p>
-                            <Button variant="primary" style={{ borderColor: '#537459', borderRadius: '10px' ,backgroundColor: '#537459', color: '#d1e2d4' }}>Провести</Button>
+                            {/* <Button variant="primary" style={{ borderColor: '#537459', borderRadius: '10px' ,backgroundColor: '#537459', color: '#d1e2d4' }}>Провести</Button> */}
                         </div>
                     </Col>
                 </Row>

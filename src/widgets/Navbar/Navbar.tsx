@@ -20,19 +20,19 @@ const Navbar: React.FC<NavbarProps> = ({ onSearchNameChange }) => {
     setSearchName(value);
 
     // Check if onSearchNameChange is defined before calling it
-    if (onSearchNameChange !== undefined) {
-      onSearchNameChange(value);
-    }
+    // if (onSearchNameChange !== undefined) {
+    //   onSearchNameChange(value);
+    // }
   };
 
-  const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  // const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
 
-    // Вызываем onSearchNameChange при отправке формы
-    if (onSearchNameChange && searchName.trim() !== '') {
-      onSearchNameChange(searchName);
-    }
-  };
+  //   // Вызываем onSearchNameChange при отправке формы
+  //   if (onSearchNameChange && searchName.trim() !== '') {
+  //     onSearchNameChange(searchName);
+  //   }
+  // };
 
   return (
     <NavB expand="lg" bg="dark" data-bs-theme="dark" className="bg-body-tertiary">
@@ -51,7 +51,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSearchNameChange }) => {
           <Form
             className="d-flex"
             id="search"
-            onSubmit={handleSearchSubmit} // Добавляем обработчик отправки формы
+            // onSubmit={handleSearchSubmit} // Добавляем обработчик отправки формы
           >
             <Form.Control
               type="search"

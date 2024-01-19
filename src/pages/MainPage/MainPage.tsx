@@ -25,7 +25,7 @@ const MainPage: React.FC = () => {
 
     const fetchData = async (searchName?: string) => {
         try {
-            const url = `http://localhost:8081/period/?searchName=${searchName}`;
+            const url = `/api/period/?searchName=${searchName}`;
             const response = await fetch(url);
             if (!response.ok) {
                 throw new Error(`Ошибка при выполнении запроса: ${response.statusText}`);
