@@ -103,6 +103,7 @@ const RegistrationPage = () => {
                     <Button
                         variant="primary"
                         type="button"
+                        style={{borderColor: "forestgreen", backgroundColor: "forestgreen"}}
                         onClick={() => handleRegister(userName, email, password, repeatPassword)}>
                         Зарегистрироваться
                     </Button>

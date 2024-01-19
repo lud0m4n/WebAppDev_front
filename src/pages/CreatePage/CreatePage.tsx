@@ -103,7 +103,7 @@ const CreatePeriodsModal = () => {
                     </Form.Group>
                 </Form>
                 {error && <div className="error-message">{error}</div>}
-                <Button variant="primary" onClick={() => handleEdit(name, desc, age)}>
+                <Button style={{borderColor: "forestgreen", backgroundColor: "forestgreen"}} variant="primary" onClick={() => handleEdit(name, desc, age)}>
                     Создать
                 </Button>
             </div>

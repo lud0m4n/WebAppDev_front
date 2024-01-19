@@ -16,6 +16,7 @@
   
   .filter-button {
     margin-top: 5px;
+    background-color: forestgreen;
   }
   
   @media (max-width: 768px) {
@@ -27,6 +28,7 @@
     .options,
     .filter-button {
       width: 100%; 
+      background-color: forestgreen;
     }
   
     .filter {

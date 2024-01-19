@@ -176,7 +176,7 @@ console.log(name, desc, age)
                     </Form.Group>
                 </Form>
                 {error && <div className="error-message">{error}</div>}
-                <Button variant="primary" onClick={() => handleEdit(name, desc, age, img)}>
+                <Button style={{borderColor: "forestgreen", backgroundColor: "forestgreen"}} variant="primary" onClick={() => handleEdit(name, desc, age, img)}>
                     Редактировать
                 </Button>
             </div>

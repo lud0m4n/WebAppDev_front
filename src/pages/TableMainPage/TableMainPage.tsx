@@ -22,7 +22,6 @@ interface Data {
         name: string;
         description: string;
         age: string;
-        status: string;
         photo: string;
     }[];
 }
@@ -133,14 +132,14 @@ const TableMainPage: React.FC = () => {
                             {data?.periods.map((item, index) => (
                                 <tr key={index}>
                                     {Object.values(item).map((value, index) => {
-                                        const excludedIndices = [0, 4];
+                                        const excludedIndices = [0];
                                         return excludedIndices.includes(index) ? null :
                                             <td key={index}>{value as React.ReactNode}</td>;
                                     }
                                     )}
                                     <td>
                                         <Link to={`/WebAppDev_front/period/${item.id_period}/edit`}>
-                                        <Button variant="primary">
+                                        <Button style={{borderColor: "forestgreen", backgroundColor: "forestgreen"}} variant="primary">
                                             Редактировать
                                         </Button>
                                         </Link>
