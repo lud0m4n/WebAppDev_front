@@ -156,7 +156,7 @@ console.log(name, desc, age)
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formAdditionalField3">
-                        <Form.Label>Цена консультации</Form.Label>
+                        <Form.Label>Временной промежуток</Form.Label>
                         <Form.Control
                             type="text"
                             placeholder="Временной промежуток"
