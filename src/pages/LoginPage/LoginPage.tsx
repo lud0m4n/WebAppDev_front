@@ -54,7 +54,7 @@ const LoginPage = () => {
                     <Button 
                     variant="primary" 
                     type="button"
-                    style={{borderColor: "forestgreen", backgroundColor: "forestgreen"}}
+                    className='butt'
                     onClick={() => handleLogin(userLogin, password)}>
                         Войти
                     </Button>

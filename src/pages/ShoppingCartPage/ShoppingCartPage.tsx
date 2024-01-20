@@ -218,7 +218,7 @@ const ShoppingCartPage: React.FC = () => {
           <Button variant="secondary" onClick={handleModalClose}>
             Закрыть
           </Button>
-          <Button style={{borderColor: "forestgreen", backgroundColor: "forestgreen"}} variant="primary" onClick={() => handleFormFossil(species)}>
+          <Button className = "butt" variant="primary" onClick={() => handleFormFossil(species)}>
             Отправить
           </Button>
         </Modal.Footer>

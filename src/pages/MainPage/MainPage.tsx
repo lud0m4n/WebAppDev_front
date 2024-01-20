@@ -106,7 +106,6 @@ const MainPage: React.FC = () => {
                 <Breadcrumb>
                     <Breadcrumb.Item href="/WebAppDev_front" active>Главная</Breadcrumb.Item>
                 </Breadcrumb>
-                    {role === "модератор" ? <Link to="/WebAppDev_front/main-page/admin">Сменить режим просмотра</Link> : null}
                 <Form
                     className="d-flex"
                     id="search"

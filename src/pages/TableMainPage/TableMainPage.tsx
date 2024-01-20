@@ -98,7 +98,6 @@ const TableMainPage: React.FC = () => {
                 <Link to="/WebAppDev_front" style={{ textDecoration: 'none', color: 'grey' }}>
                     <p>Главная</p>
                 </Link>
-               <Link to="/WebAppDev_front">Сменить режим просмотра</Link>
                 <Form
                     className="d-flex"
                     id="search"
@@ -139,7 +138,7 @@ const TableMainPage: React.FC = () => {
                                     )}
                                     <td>
                                         <Link to={`/WebAppDev_front/period/${item.id_period}/edit`}>
-                                        <Button style={{borderColor: "forestgreen", backgroundColor: "forestgreen"}} variant="primary">
+                                        <Button className = "butt" variant="primary">
                                             Редактировать
                                         </Button>
                                         </Link>

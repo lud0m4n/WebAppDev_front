@@ -9,9 +9,11 @@ import { useState } from 'react';
 import { logout } from '../../redux/auth/authActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
+import { loginSuccess, setRole } from '../../redux/auth/authSlice';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
+  const role = useSelector((state: RootState) => state.auth.role);
   const dispatch = useDispatch();
   const searchNameFilter = useSelector((state: RootState) => state.filterAndActiveId.searchNameFilter);
 
@@ -22,6 +24,11 @@ const Navbar = () => {
     try {
       await dispatch(logout());
       window.location.reload();
+      if (window.localStorage.getItem("role")) {
+        const role = window.localStorage.getItem("role");
+        // const role = roleString ? parseInt(roleString) : 0;
+        dispatch(setRole(role))
+    }
     } catch (error) {
       console.error("Error during logout:", error);
     }
@@ -41,10 +48,10 @@ const Navbar = () => {
             <Link className='navbar-link' to="/WebAppDev_front">Главная</Link>
             {window.localStorage.getItem("accessToken") ? (
               <Link className='navbar-link' to="/WebAppDev_front/fossils">
-                Заявки
+                Ископаемые
               </Link>
             ) : null}
-
+          {role === "модератор" ? <Link className='navbar-link' to="/WebAppDev_front/main-page/admin">Таблица периодов</Link> : null}
           </Nav>
           <Nav>
             <div className='right-side'>

@@ -198,7 +198,7 @@ const AllFossilsAdminPage = () => {
                         </select>
                     </div>
                     
-                    <Button style={{borderColor: "forestgreen", backgroundColor: "forestgreen"}} className='filter-button' variant="primary" onClick={() => { handleResetFilter() }}>
+                    <Button className = "butt" className='filter-button' variant="primary" onClick={() => { handleResetFilter() }}>
                         Сбросить фильтры
                     </Button>
                 </div>
@@ -237,7 +237,7 @@ const AllFossilsAdminPage = () => {
                                                 <td><Link to={`/WebAppDev_front/fossil/${fossil.id_fossil}`}>Подробнее</Link></td>
                                             </> :
                                             <>
-                                                <td><Button style={{borderColor: "forestgreen", backgroundColor: "forestgreen"}} variant="primary" onClick={() => { handleChangeStatus(fossil.id_fossil, 'завершен') }}>
+                                                <td><Button className = "butt" variant="primary" onClick={() => { handleChangeStatus(fossil.id_fossil, 'завершен') }}>
                                                     Закончить
                                                 </Button></td>
                                                 <td><Button variant="danger" onClick={() => { handleChangeStatus(fossil.id_fossil, 'отклонен') }}>

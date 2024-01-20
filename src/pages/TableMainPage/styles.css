@@ -15,3 +15,9 @@
 .add-pers:hover {
     transform: scale(1.03);
 }
+.butt {
+    color: #ffffff;
+    border: solid 2px white;
+    background: #0d83d6;
+    background: -webkit-gradient(linear, left top, left bottom, from(#02bcde), to(#0d83d6));
+  }  
