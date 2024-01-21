@@ -38,9 +38,10 @@ const MainPage: React.FC = () => {
             console.log(testData)
             let result = { ...testData }; // Создаем копию оригинальных данных
             if (searchName) {
-                result.periods = testData.periods.filter((periods) => periods.id_period <= parseInt(searchName));
+                result.periods = testData.periods.filter((periods) => periods.name.toLowerCase().includes(searchName.toLowerCase()));
             }
             setData(result)
+            console.log(searchName);
             console.error('ошибка при выполннении запроса:', error);
         }
     };
