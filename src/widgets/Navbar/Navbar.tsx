@@ -25,14 +25,14 @@ const Navbar: React.FC<NavbarProps> = ({ onSearchNameChange }) => {
     // }
   };
 
-  // const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
+  const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-  //   // Вызываем onSearchNameChange при отправке формы
-  //   if (onSearchNameChange && searchName.trim() !== '') {
-  //     onSearchNameChange(searchName);
-  //   }
-  // };
+    // Вызываем onSearchNameChange при отправке формы
+    if (onSearchNameChange && searchName.trim() !== '') {
+      onSearchNameChange(searchName);
+    }
+  };
 
   return (
     <NavB expand="lg" bg="dark" data-bs-theme="dark" className="bg-body-tertiary">
@@ -51,7 +51,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSearchNameChange }) => {
           <Form
             className="d-flex"
             id="search"
-            // onSubmit={handleSearchSubmit} // Добавляем обработчик отправки формы
+            onSubmit={handleSearchSubmit} // Добавляем обработчик отправки формы
           >
             <Form.Control
               type="search"
@@ -60,6 +60,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSearchNameChange }) => {
               aria-label="Search"
               value={searchName}
               onChange={handleSearchNameChange}
+              
             />
             <Button
               variant="outline-success"
